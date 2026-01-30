@@ -9,4 +9,5 @@ public interface ITourAgencyService
     Task DeleteTourAsync(int id);
     Task<List<Tour>> GetAllToursAsync();
     Task<Tour?> GetTourByIdAsync(int id);
+    Task<List<Tour>> GetToursByCountryAsync(string country);
 }

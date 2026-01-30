@@ -2,30 +2,34 @@ using Tours.Interfaces;
 
 namespace Tours.Service;
 
-public class CouchDbService : ICouchDbService
+public class CouchDbService(IHttpClientFactory httpClientFactory) : ICouchDbService
 {
-    public Task CreateDatabaseAsync(string dbName)
+    private readonly HttpClient _httpClient = httpClientFactory.CreateClient("CouchDB");
+    public async Task CreateDatabaseAsync(string dbName)
     {
-        throw new NotImplementedException();
+        var response = await _httpClient.PostAsync($"/{dbName}", null);
+        if (!response.IsSuccessStatusCode)
+            response.EnsureSuccessStatusCode();
     }
 
-    public Task<List<string>> GetDatabasesAsync()
+    public async Task<List<string>?> GetDatabasesAsync()
     {
-        throw new NotImplementedException();
+        return await _httpClient.GetFromJsonAsync<List<string>>("/_all_dbs");
     }
 
-    public Task CreateDocumentAsync<T>(string dbName, T document)
+    public async Task CreateDocumentAsync<T>(string dbName, T document)
     {
-        throw new NotImplementedException();
+        var response = await _httpClient.PostAsJsonAsync($"/{dbName}", document);
+        response.EnsureSuccessStatusCode();
     }
 
-    public Task<string> GetDocumentAsync(string dbName, string id)
+    public async Task<string> GetDocumentAsync(string dbName, string id)
     {
-        throw new NotImplementedException();
+        return await _httpClient.GetStringAsync($"/{dbName}/{id}");
     }
 
-    public Task DeleteDocumentAsync(string dbName, string id, string rev)
+    public async Task DeleteDocumentAsync(string dbName, string id, string rev)
     {
-        throw new NotImplementedException();
+        var response = await _httpClient.DeleteAsync($"/{dbName}/{id}?rev={rev}");
     }
 }
