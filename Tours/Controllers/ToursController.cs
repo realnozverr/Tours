@@ -11,7 +11,7 @@ public class ToursController(ITourAgencyService tourService, ICouchDbService cou
     [HttpGet]
     public async Task<ActionResult<List<Tour>>> GetAll() => Ok(await tourService.GetAllToursAsync());
 
-    [HttpGet("{id}")]
+    [HttpGet("{id}", Name = "GetTourById")]
     public async Task<ActionResult<Tour>> GetTourByIdAsync(int id)
     {
         var tour = await tourService.GetTourByIdAsync(id);
@@ -22,7 +22,7 @@ public class ToursController(ITourAgencyService tourService, ICouchDbService cou
     public async Task<ActionResult> Create(Tour tour)
     {
         await tourService.CreateTourAsync(tour);
-        return CreatedAtAction(nameof(GetTourByIdAsync), new { id = tour.Id }, tour);
+        return CreatedAtAction("GetTourById", new { id = tour.Id }, tour);
     }
     
     [HttpGet("filter")]

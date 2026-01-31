@@ -7,8 +7,8 @@ public class CouchDbService(IHttpClientFactory httpClientFactory) : ICouchDbServ
     private readonly HttpClient _httpClient = httpClientFactory.CreateClient("CouchDB");
     public async Task CreateDatabaseAsync(string dbName)
     {
-        var response = await _httpClient.PostAsync($"/{dbName}", null);
-        if (!response.IsSuccessStatusCode)
+        var response = await _httpClient.PutAsync($"/{dbName}", null);
+        if (!response.IsSuccessStatusCode && response.StatusCode != System.Net.HttpStatusCode.PreconditionFailed)
             response.EnsureSuccessStatusCode();
     }
 

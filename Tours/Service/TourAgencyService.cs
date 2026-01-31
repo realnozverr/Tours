@@ -4,7 +4,7 @@ using Tours.Persistence.Repositories;
 
 namespace Tours.Service;
 
-public class TourAgencyService(ICouchDbService couchService, IRepository<Tour> repository) : ITourAgencyService
+public class TourAgencyService(IRepository<Tour> repository) : ITourAgencyService
 {
     public async Task CreateTourAsync(Tour tour) => await repository.AddAsync(tour);
 
