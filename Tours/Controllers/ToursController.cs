@@ -72,4 +72,46 @@ public class ToursController(ITourAgencyService tourService, ICouchDbService cou
 
     [HttpGet("nosql/databases")]
     public async Task<IActionResult> GetCouchDbs() => Ok(await couchService.GetDatabasesAsync());
+
+    [HttpPost("nosql/databases/{dbName}")]
+    public async Task<IActionResult> CreateCouchDb(string dbName)
+    {
+        await couchService.CreateDatabaseAsync(dbName);
+        return Ok(new { Message = $"Database '{dbName}' created or already exists" });
+    }
+
+    [HttpGet("nosql/databases/{dbName}/documents/{id}")]
+    public async Task<IActionResult> GetDocument(string dbName, string id)
+    {
+        try
+        {
+            var json = await couchService.GetDocumentAsync(dbName, id);
+            return Content(json, "application/json");
+        }
+        catch (HttpRequestException)
+        {
+            return NotFound();
+        }
+    }
+
+    [HttpPut("nosql/databases/{dbName}/documents/{id}")]
+    public async Task<IActionResult> UpdateDocument(string dbName, string id, [FromBody] object document)
+    {
+        try
+        {
+            await couchService.UpdateDocumentAsync(dbName, id, document);
+            return Ok(new { Message = "Document updated successfully" });
+        }
+        catch (HttpRequestException ex)
+        {
+            return BadRequest(new { Error = ex.Message });
+        }
+    }
+
+    [HttpDelete("nosql/databases/{dbName}/documents/{id}")]
+    public async Task<IActionResult> DeleteDocument(string dbName, string id, [FromQuery] string rev)
+    {
+        await couchService.DeleteDocumentAsync(dbName, id, rev);
+        return NoContent();
+    }
 }

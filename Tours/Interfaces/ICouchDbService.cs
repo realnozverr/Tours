@@ -5,6 +5,7 @@ public interface ICouchDbService
     Task CreateDatabaseAsync(string dbName);
     Task<List<string>?> GetDatabasesAsync();
     Task CreateDocumentAsync<T>(string dbName, T document);
+    Task UpdateDocumentAsync<T>(string dbName, string id, T document);
     Task<string> GetDocumentAsync(string dbName, string id);
     Task DeleteDocumentAsync(string dbName, string id, string rev);
 }

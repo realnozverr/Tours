@@ -23,6 +23,12 @@ public class CouchDbService(IHttpClientFactory httpClientFactory) : ICouchDbServ
         response.EnsureSuccessStatusCode();
     }
 
+    public async Task UpdateDocumentAsync<T>(string dbName, string id, T document)
+    {
+        var response = await _httpClient.PutAsJsonAsync($"/{dbName}/{id}", document);
+        response.EnsureSuccessStatusCode();
+    }
+
     public async Task<string> GetDocumentAsync(string dbName, string id)
     {
         return await _httpClient.GetStringAsync($"/{dbName}/{id}");
