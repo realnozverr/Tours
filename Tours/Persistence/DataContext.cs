@@ -11,7 +11,7 @@ public class DataContext(DbContextOptions<DataContext> options) : DbContext(opti
     public DbSet<Tour> Tours { get; set; } 
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
+    { // Конфигурации для базы данных
       modelBuilder.ApplyConfiguration(new TourConfiguration());
       modelBuilder.ApplyConfiguration(new BookingConfiguration()); 
       modelBuilder.ApplyConfiguration(new ClientConfiguration()); 

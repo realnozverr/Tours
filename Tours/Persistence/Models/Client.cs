@@ -8,5 +8,6 @@ public class Client
    public string Passport { get; set; } = null!;
    public string Phone { get; set; } = null!;
    public string Email { get; set; }  = null!;
+   // Навигационное свойство для ORM
    public List<Booking> Bookings { get; set; } = [];
 }

@@ -10,5 +10,6 @@ public class Tour
     public decimal Price { get; set; }
     public DateTime StartDate { get; set; }
     public string? Description { get; set; }
+    // Навигационное свойство для ORM
     public List<Booking> Bookings { get; set; } = [];
 }

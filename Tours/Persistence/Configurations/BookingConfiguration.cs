@@ -10,6 +10,7 @@ public class BookingConfiguration : IEntityTypeConfiguration<Booking>
     {
         builder.ToTable("bookings");
         
+        // Первичный ключ, автоинкремент
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id)
             .ValueGeneratedOnAdd()
@@ -32,12 +33,14 @@ public class BookingConfiguration : IEntityTypeConfiguration<Booking>
             .IsRequired()
             .HasColumnName("status");
         
+        // связь один ко многим с Tour
         builder.HasOne(x => x.Tour)
             .WithMany(x => x.Bookings)
             .HasForeignKey("tour_id")
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
-            
+        
+        // связь один ко многим с Client
         builder.HasOne(x => x.Client)
             .WithMany(x => x.Bookings)
             .HasForeignKey("client_id");

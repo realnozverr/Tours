@@ -7,6 +7,7 @@ public class Booking
     public int PersonsCount { get; set; }
     public decimal TotalPrice { get; set; }
     public string Status { get; set; } = "Confirmed";
+    // Связи для ORM
     public Tour? Tour { get; set; }
     public Client? Client { get; set; }
 }
